@@ -6,7 +6,7 @@
             <span class="bi bi-pin-map"></span>
             @Trail.Location
         </h6>
-        <div class="d-flex justify-content-between">
+        <div class="d-flex justify-content-between mb-3">
             <span>
                 <span class="bi bi-clock mr-2"></span>
                 @Trail.TimeFormatted
@@ -16,8 +16,8 @@
                 @Trail.Length km
             </span>
         </div>
-        <button class="btn btn-primary" title="View"
-                @onclick="@(() => OnSelected?.Invoke(Trail))">
+        <button class="btn btn-primary"
+                @onclick="@(async () => await OnSelected.InvokeAsync(Trail))">
             <i class="bi bi-binoculars"></i>
         </button>
     </div>
@@ -26,5 +26,5 @@
 @code
 {
     [Parameter, EditorRequired] public Trail Trail { get; set; } = default!;
-    [Parameter, EditorRequired] public Action<Trail> OnSelected { get; set; }
+    [Parameter] public EventCallback<Trail> OnSelected { get; set; }
 }

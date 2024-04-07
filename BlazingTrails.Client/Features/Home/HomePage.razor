@@ -13,7 +13,7 @@ else
     <div class="grid">
         @foreach (var trail in _trails)
         {
-            <TrailCard Trail="trail"/>
+            <TrailCard Trail="trail" OnSelected="HandleTrailSelected"/>
         }
     </div>
 }
@@ -34,10 +34,8 @@ else
         }
     }
 
-    private void HandleTrailSelected(Trail trail)
-    {
+    private void HandleTrailSelected(Trail trail) =>
         _selectedTrail = trail;
-        StateHasChanged();
-    }
+
 
 }
