@@ -11,4 +11,10 @@
         <PackageReference Include="Microsoft.AspNetCore.Components.WebAssembly.DevServer" Version="8.0.1" PrivateAssets="all"/>
     </ItemGroup>
 
+    <ItemGroup>
+      <_ContentIncludedByDefault Remove="wwwroot\sample-data\weather.json" />
+      <_ContentIncludedByDefault Remove="Layout\MainLayout.razor" />
+      <_ContentIncludedByDefault Remove="Layout\NavMenu.razor" />
+    </ItemGroup>
+
 </Project>
