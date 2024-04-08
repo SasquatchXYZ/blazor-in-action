@@ -1,9 +1,9 @@
-@page "/search"
+@page "/search/{SearchTerm}"
 
 <PageTitle>Search Trails - Blazing Trails</PageTitle>
 
-<h3>Search Results</h3>
+<h3>Search Results for "@SearchTerm"</h3>
 
 @code {
-
+    [Parameter] public string SearchTerm { get; set; } = default!;
 }
