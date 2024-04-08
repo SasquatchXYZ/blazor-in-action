@@ -38,6 +38,7 @@ else
 @code {
     private IEnumerable<Trail>? _searchResults;
     private Trail? _selectedTrail;
+    private IEnumerable<Trail> _cachedSearchResults = Array.Empty<Trail>();
 
     [Parameter] public string SearchTerm { get; set; } = default!;
     [Parameter] public int? MaxLength { get; set; }
@@ -50,10 +51,23 @@ else
             _searchResults = allTrails!
                 .Where(trail => trail.Name.Contains(SearchTerm, StringComparison.CurrentCultureIgnoreCase) ||
                                 trail.Location.Contains(SearchTerm, StringComparison.CurrentCultureIgnoreCase));
+            _cachedSearchResults = _searchResults;
         }
         catch (HttpRequestException ex)
         {
             Console.WriteLine($"There was a problem loading trail data: {ex.Message}");
+        }
+    }
+
+    protected override void OnParametersSet()
+    {
+        if (_cachedSearchResults.Any() && MaxLength.HasValue)
+        {
+            _searchResults = _cachedSearchResults.Where(trail => trail.Length <= MaxLength.Value);
+        }
+        else if (_cachedSearchResults.Any() && MaxLength is null)
+        {
+            _searchResults = _cachedSearchResults;
         }
     }
 
