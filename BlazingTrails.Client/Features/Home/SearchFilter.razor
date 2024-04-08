@@ -3,6 +3,8 @@
 <div class="filters">
     <label for="maxLength">Max Length</label>
     <input id="maxLength" type="number" class="form-control" @bind="_maxLength"/>
+    <label for="maxTime">Max Time (hours)</label>
+    <input id="maxTime" type="number" class="form-control" @bind="_maxTime"/>
     <button class="btn btn-outline-primary" @onclick="FilterSearchResults">
         Filter
     </button>
@@ -13,15 +15,25 @@
 
 @code {
     private int _maxLength;
+    private int _maxTime;
 
     [Parameter, EditorRequired] public string SearchTerm { get; set; } = default!;
 
-    private void FilterSearchResults() =>
-        NavigationManager.NavigateTo($"/search/{SearchTerm}/maxLength/{_maxLength}");
+    private void FilterSearchResults()
+    {
+        var uriWithQueryString = NavigationManager.GetUriWithQueryParameters(
+            new Dictionary<string, object?>
+            {
+                [nameof(SearchPage.MaxLength)] = _maxLength == 0 ? null : _maxLength,
+                [nameof(SearchPage.MaxTime)] = _maxTime == 0 ? null : _maxTime
+            });
+        NavigationManager.NavigateTo(uriWithQueryString);
+    }
 
     private void ClearSearchFilter()
     {
         _maxLength = 0;
+        _maxTime = 0;
         NavigationManager.NavigateTo($"/search/{SearchTerm}");
     }
 
