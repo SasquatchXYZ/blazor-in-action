@@ -1,5 +1,6 @@
 using System.Reflection;
 using BlazingTrails.Api.Persistence;
+using BlazingTrails.Shared.Features.ManageTrails;
 using FluentValidation;
 using FluentValidation.AspNetCore;
 using Microsoft.EntityFrameworkCore;
@@ -12,7 +13,8 @@ builder.Services.AddDbContext<BlazingTrailsContext>(options =>
 builder.Services.AddControllers();
 builder.Services.AddFluentValidationAutoValidation();
 builder.Services.AddFluentValidationClientsideAdapters();
-builder.Services.AddValidatorsFromAssembly(Assembly.Load("BlaingTrails.Shared"));
+builder.Services.AddValidatorsFromAssemblyContaining<TrailValidator>();
+// builder.Services.AddValidatorsFromAssemblyContaining<RouteInstructionValidator>();
 
 var app = builder.Build();
 
