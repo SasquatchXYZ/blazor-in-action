@@ -39,6 +39,7 @@
         <FormFieldSet Width="col-3">
             <label for="trailLength" class="font-weight-bold text-secondary">Length (km)</label>
             <InputNumber @bind-Value="_trail.Length" class="form-control" id="trailLength"/>
+            <ValidationMessage For="@(() => _trail.Length)"/>
         </FormFieldSet>
     </FormSection>
 
@@ -60,6 +61,7 @@
                     <div class="form-group">
                         <label for="routeInstructionDescription" class="font-weight-bold text-secondary">Description</label>
                         <InputText @bind-Value="routeInstruction.Description" class="form-control" id="routeInstructionDescription"/>
+                        <ValidationMessage For="@(() => routeInstruction.Description)"/>
                     </div>
                 </div>
                 <div class="col-1 d-flex mt-3">
@@ -79,6 +81,7 @@
                         @onclick="@(() => _trail.Route.Add(new TrailDto.RouteInstruction()))">
                     Add Instruction
                 </button>
+                <ValidationMessage For="@(() => _trail.Route)"/>
             </div>
         </div>
     </FormSection>
