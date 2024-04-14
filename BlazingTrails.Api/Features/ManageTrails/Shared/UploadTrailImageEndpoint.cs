@@ -6,7 +6,7 @@ using Microsoft.EntityFrameworkCore;
 using SixLabors.ImageSharp;
 using SixLabors.ImageSharp.Processing;
 
-namespace BlazingTrails.Api.Features.ManageTrails;
+namespace BlazingTrails.Api.Features.ManageTrails.Shared;
 
 public class UploadTrailImageEndpoint : EndpointBaseAsync.WithRequest<int>.WithActionResult<string>
 {
