@@ -48,6 +48,11 @@ public class UploadTrailImageEndpoint : EndpointBaseAsync.WithRequest<int>.WithA
         image.Mutate(x => x.Resize(resizeOptions));
         await image.SaveAsJpegAsync(saveLocation, cancellationToken: cancellationToken);
 
+        if (!string.IsNullOrWhiteSpace(trail.Image))
+        {
+            System.IO.File.Delete(Path.Combine(Directory.GetCurrentDirectory(), "Images", trail.Image));
+        }
+
         trail.Image = filename;
         await _database.SaveChangesAsync(cancellationToken);
 
