@@ -1,4 +1,4 @@
-namespace BlazingTrails.Shared.Features.ManageTrails;
+namespace BlazingTrails.Shared.Features.ManageTrails.Shared;
 
 public class TrailDto
 {
@@ -9,6 +9,10 @@ public class TrailDto
     public int TimeInMinutes { get; set; }
     public int Length { get; set; }
     public List<RouteInstruction> Route { get; set; } = new();
+
+    public string? Image { get; set; }
+
+    public ImageAction ImageAction { get; set; }
 
     public class RouteInstruction
     {
