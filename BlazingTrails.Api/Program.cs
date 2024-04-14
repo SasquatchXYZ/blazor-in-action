@@ -1,6 +1,5 @@
-using System.Reflection;
 using BlazingTrails.Api.Persistence;
-using BlazingTrails.Shared.Features.ManageTrails;
+using BlazingTrails.Shared.Features.ManageTrails.Shared;
 using FluentValidation;
 using FluentValidation.AspNetCore;
 using Microsoft.EntityFrameworkCore;
