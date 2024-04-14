@@ -54,6 +54,11 @@ else if (_errorMessage is not null)
             <InputText @bind-Value="_trail.Location" class="form-control" id="trailLocation"/>
             <ValidationMessage For="@(() => _trail.Location)"/>
         </FormFieldSet>
+
+        <FormFieldSet>
+            <label for="trailImage" class="font-weight-bold text-secondary">Image</label>
+            <InputFile OnChange="LoadTrailImage" class="form-control-file" id="trailImage" accept=".png,.jpg,.jpeg"/>
+        </FormFieldSet>
     </FormSection>
 
     <FormSection Title="Difficulty" HelpText="Help other hikers out by telling them the length of the trail so they might know how long it might take them.">
@@ -129,12 +134,15 @@ else if (_errorMessage is not null)
     private bool _submitSuccessful;
     private string? _errorMessage;
     private EditContext _editContext = default!;
+    private IBrowserFile? _trailImage;
 
     protected override void OnInitialized()
     {
         _editContext = new EditContext(_trail);
         _editContext.SetFieldCssClassProvider(new BootstrapCssClassProvider());
     }
+
+    private void LoadTrailImage(InputFileChangeEventArgs e) => _trailImage = e.File;
 
     private async Task SubmitForm()
     {
