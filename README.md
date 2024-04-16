@@ -21,3 +21,15 @@ to install the command line tools.  Then run the following command to set up the
 ```shell
 dotnet ef database update InitialEntities
 ```
+
+### Notes:
+Package Manager Console Commands (Visual Studio):
+```shell
+Add-Migration <Migration Name>
+Update-Database
+```
+Equivalent Terminal Commands using `dotnet ef`:
+```shell
+dotnet ef migrations add <Migration Name>
+dotnet ef database update <Migration Name>
+```
