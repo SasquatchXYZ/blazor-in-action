@@ -16,7 +16,7 @@
 @code {
     private ElementReference _map;
     private IJSObjectReference? _routeMapModule;
-    private DotNetObjectReference<RouteMap> _routeMapReference;
+    private DotNetObjectReference<RouteMap>? _routeMapReference;
     [Parameter] public string Height { get; set; } = "500px";
     [Parameter] public string Width { get; set; } = "1000px";
     [Parameter] public List<LatLong> Waypoints { get; set; } = new();
@@ -54,6 +54,6 @@
         }
     }
 
-    void IDisposable.Dispose() => _routeMapReference.Dispose();
+    void IDisposable.Dispose() => _routeMapReference?.Dispose();
 
 }
