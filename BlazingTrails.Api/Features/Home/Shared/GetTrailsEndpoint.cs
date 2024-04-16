@@ -20,7 +20,7 @@ public class GetTrailsEndpoint : EndpointBaseAsync.WithRequest<int>.WithActionRe
         CancellationToken cancellationToken = default)
     {
         var trails = await _database.Trails
-            .Include(x => x.Route)
+            .Include(x => x.Waypoints)
             .ToListAsync(cancellationToken);
 
         var response = new GetTrailsRequest.Response(
