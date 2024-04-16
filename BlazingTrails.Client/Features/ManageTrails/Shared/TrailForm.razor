@@ -1,5 +1,4 @@
 @using BlazingTrails.Client.Validation
-@using BlazingTrails.Shared.Features.ManageTrails.Shared
 @using BlazingTrails.ComponentLibrary.Map
 
 <EditForm EditContext="_editContext" OnValidSubmit="SubmitForm">
@@ -93,12 +92,8 @@
             _trail.ImageAction = Trail.ImageAction;
             _trail.Length = Trail.Length;
             _trail.TimeInMinutes = Trail.TimeInMinutes;
-            _trail.Route.Clear();
-            _trail.Route.AddRange(Trail.Route.Select(routeInstruction => new TrailDto.RouteInstruction
-            {
-                Stage = routeInstruction.Stage,
-                Description = routeInstruction.Description
-            }));
+            _trail.Waypoints.Clear();
+            _trail.Waypoints.AddRange(Trail.Waypoints.Select(waypoint => new TrailDto.WaypointDto(waypoint.Latitude, waypoint.Longitude)));
         }
     }
 

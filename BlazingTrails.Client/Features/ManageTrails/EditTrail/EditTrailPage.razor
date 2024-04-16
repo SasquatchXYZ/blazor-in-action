@@ -1,6 +1,5 @@
 @page "/editTrail/{TrailId:int}"
 @using BlazingTrails.Shared.Features.ManageTrails.EditTrail
-@using BlazingTrails.Shared.Features.ManageTrails.Shared
 @inject IMediator Mediator
 
 <PageTitle>Edit Trail - Blazing Trails</PageTitle>
@@ -57,12 +56,7 @@ else
             _trail.Image = response.Trail.Image;
             _trail.Length = response.Trail.Length;
             _trail.TimeInMinutes = response.Trail.TimeInMinutes;
-            _trail.Route.Clear();
-            _trail.Route.AddRange(response.Trail.RouteInstructions.Select(routeInstruction => new TrailDto.RouteInstruction
-            {
-                Stage = routeInstruction.Stage,
-                Description = routeInstruction.Description
-            }));
+            _trail.Waypoints.AddRange(response.Trail.Waypoints.Select(waypoint => new TrailDto.WaypointDto(waypoint.Latitude, waypoint.Longitude)));
         }
         else
         {
@@ -88,11 +82,8 @@ else
             _trail.Location = trail.Location;
             _trail.Length = trail.Length;
             _trail.TimeInMinutes = trail.TimeInMinutes;
-            _trail.Route.AddRange(trail.Route.Select(routeInstruction => new TrailDto.RouteInstruction
-            {
-                Stage = routeInstruction.Stage,
-                Description = routeInstruction.Description
-            }));
+            _trail.Waypoints.Clear();
+            _trail.Waypoints.AddRange(trail.Waypoints.Select(waypoint => new TrailDto.WaypointDto(waypoint.Latitude, waypoint.Longitude)));
 
             _submitSuccessful = true;
 
