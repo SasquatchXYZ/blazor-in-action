@@ -4,12 +4,15 @@
 @implements IDisposable
 
 <div class="map-wrapper">
-    <div class="controls">
-        <button @onclick="DeleteLastWaypoint" class="btn btn-secondary" title="Delete last waypoint" type="button">
-            <i class="bi bi-trash"></i>
-            Remove Last Waypoint
-        </button>
-    </div>
+    @if (!IsReadOnly)
+    {
+        <div class="controls">
+            <button @onclick="DeleteLastWaypoint" class="btn btn-secondary" title="Delete last waypoint" type="button">
+                <i class="bi bi-trash"></i>
+                Remove Last Waypoint
+            </button>
+        </div>
+    }
     <div style="height: @(Height); width: @(Width);" @ref="_map"></div>
 </div>
 
@@ -17,6 +20,7 @@
     private ElementReference _map;
     private IJSObjectReference? _routeMapModule;
     private DotNetObjectReference<RouteMap>? _routeMapReference;
+    [Parameter] public bool IsReadOnly { get; set; }
     [Parameter] public string Height { get; set; } = "500px";
     [Parameter] public string Width { get; set; } = "1000px";
     [Parameter] public List<LatLong> Waypoints { get; set; } = new();
@@ -29,7 +33,7 @@
         {
             _routeMapModule = await JsRuntime.InvokeAsync<IJSObjectReference>("import", "./_content/BlazingTrails.ComponentLibrary/Map/RouteMap.razor.js");
             _routeMapReference = DotNetObjectReference.Create(this);
-            await _routeMapModule.InvokeVoidAsync("initialize", _map, _routeMapReference, Waypoints);
+            await _routeMapModule.InvokeVoidAsync("initialize", _map, _routeMapReference, Waypoints, IsReadOnly);
         }
     }
 
