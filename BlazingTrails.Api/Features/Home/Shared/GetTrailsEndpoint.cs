@@ -32,7 +32,10 @@ public class GetTrailsEndpoint : EndpointBaseAsync.WithRequest<int>.WithActionRe
                     trail.Location,
                     trail.TimeInMinutes,
                     trail.Length,
-                    trail.Description)));
+                    trail.Description,
+                    trail.Waypoints.Select(waypoint =>
+                        new GetTrailsRequest.Waypoint(waypoint.Latitude, waypoint.Longitude)).ToList()
+                )));
 
         return Ok(response);
     }

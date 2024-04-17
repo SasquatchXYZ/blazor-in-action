@@ -1,4 +1,5 @@
 @page "/"
+@using BlazingTrails.ComponentLibrary.Map
 @inject IMediator Mediator
 @inject NavigationManager NavigationManager
 
@@ -78,6 +79,7 @@ else
                 Location = trail.Location,
                 Length = trail.Length,
                 TimeInMinutes = trail.TimeInMinutes,
+                Waypoints = trail.Waypoints.Select(waypoint => new LatLong(waypoint.Latitude, waypoint.Longitude)).ToList()
             });
         }
         catch (HttpRequestException ex)
