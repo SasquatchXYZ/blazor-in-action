@@ -20,7 +20,7 @@ public class GetTrailEndpoint : EndpointBaseAsync.WithRequest<int>.WithActionRes
         CancellationToken cancellationToken = default)
     {
         var trail = await _database.Trails
-            .Include(x => x.Route)
+            .Include(x => x.Waypoints)
             .SingleOrDefaultAsync(trail => trail.Id == trailId, cancellationToken: cancellationToken);
 
         if (trail is null)
@@ -36,8 +36,8 @@ public class GetTrailEndpoint : EndpointBaseAsync.WithRequest<int>.WithActionRes
                 trail.TimeInMinutes,
                 trail.Length,
                 trail.Description,
-                trail.Route.Select(routeInstruction => new GetTrailRequest.RouteInstruction(routeInstruction.Id,
-                    routeInstruction.Stage, routeInstruction.Description))));
+                trail.Waypoints.Select(waypoint =>
+                    new GetTrailRequest.Waypoint(waypoint.Latitude, waypoint.Longitude))));
 
         return Ok(response);
     }

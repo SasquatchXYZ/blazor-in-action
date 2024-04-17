@@ -23,22 +23,17 @@ public class AddTrailEndpoint : EndpointBaseAsync.WithRequest<AddTrailRequest>.W
         {
             Name = request.Trail.Name,
             Description = request.Trail.Description,
-            Location = request.Trail.Description,
+            Location = request.Trail.Location,
             TimeInMinutes = request.Trail.TimeInMinutes,
-            Length = request.Trail.Length
+            Length = request.Trail.Length,
+            Waypoints = request.Trail.Waypoints.Select(waypoint => new Waypoint
+            {
+                Latitude = waypoint.Latitude,
+                Longitude = waypoint.Longitude
+            }).ToList()
         };
 
         await _database.Trails.AddAsync(trail, cancellationToken);
-
-        var routeInstructions = request.Trail.Route.Select(route => new RouteInstruction
-        {
-            Stage = route.Stage,
-            Description = route.Description,
-            Trail = trail
-        });
-
-        await _database.RouteInstructions.AddRangeAsync(routeInstructions, cancellationToken);
-
         await _database.SaveChangesAsync(cancellationToken);
 
         return Ok(trail.Id);

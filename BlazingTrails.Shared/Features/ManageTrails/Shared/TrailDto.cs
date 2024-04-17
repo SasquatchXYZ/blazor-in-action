@@ -8,15 +8,9 @@ public class TrailDto
     public string Location { get; set; } = string.Empty;
     public int TimeInMinutes { get; set; }
     public int Length { get; set; }
-    public List<RouteInstruction> Route { get; set; } = new();
-
+    public List<WaypointDto> Waypoints { get; set; } = [];
     public string? Image { get; set; }
-
     public ImageAction ImageAction { get; set; }
 
-    public class RouteInstruction
-    {
-        public int Stage { get; set; }
-        public string Description { get; set; } = string.Empty;
-    }
+    public record WaypointDto(decimal Latitude, decimal Longitude);
 }

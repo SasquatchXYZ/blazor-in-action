@@ -20,7 +20,7 @@ public class GetTrailsEndpoint : EndpointBaseAsync.WithRequest<int>.WithActionRe
         CancellationToken cancellationToken = default)
     {
         var trails = await _database.Trails
-            .Include(x => x.Route)
+            .Include(x => x.Waypoints)
             .ToListAsync(cancellationToken);
 
         var response = new GetTrailsRequest.Response(
@@ -32,7 +32,10 @@ public class GetTrailsEndpoint : EndpointBaseAsync.WithRequest<int>.WithActionRe
                     trail.Location,
                     trail.TimeInMinutes,
                     trail.Length,
-                    trail.Description)));
+                    trail.Description,
+                    trail.Waypoints.Select(waypoint =>
+                        new GetTrailsRequest.Waypoint(waypoint.Latitude, waypoint.Longitude)).ToList()
+                )));
 
         return Ok(response);
     }

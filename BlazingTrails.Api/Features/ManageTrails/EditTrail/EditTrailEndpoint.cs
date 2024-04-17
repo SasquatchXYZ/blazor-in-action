@@ -22,7 +22,7 @@ public class EditTrailEndpoint : EndpointBaseAsync.WithRequest<EditTrailRequest>
         CancellationToken cancellationToken = default)
     {
         var trail = await _database.Trails
-            .Include(x => x.Route)
+            .Include(x => x.Waypoints)
             .SingleOrDefaultAsync(trail => trail.Id == request.Trail.Id, cancellationToken: cancellationToken);
 
         if (trail is null)
@@ -33,11 +33,10 @@ public class EditTrailEndpoint : EndpointBaseAsync.WithRequest<EditTrailRequest>
         trail.Location = request.Trail.Location;
         trail.TimeInMinutes = request.Trail.TimeInMinutes;
         trail.Length = request.Trail.Length;
-        trail.Route = request.Trail.Route.Select(routeInstruction => new RouteInstruction
+        trail.Waypoints = request.Trail.Waypoints.Select(waypoint => new Waypoint
         {
-            Stage = routeInstruction.Stage,
-            Description = routeInstruction.Description,
-            Trail = trail
+            Latitude = waypoint.Latitude,
+            Longitude = waypoint.Longitude
         }).ToList();
 
         if (request.Trail.ImageAction == ImageAction.Remove)
