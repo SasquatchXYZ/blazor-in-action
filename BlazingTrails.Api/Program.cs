@@ -23,6 +23,7 @@ builder.Services.AddAuthentication(options =>
 {
     options.Authority = builder.Configuration["Auth0:Authority"];
     options.Audience = builder.Configuration["Auth0:ApiIdentifier"];
+    options.RequireHttpsMetadata = false; // putting this here temporarily for running on Linux because things don't seem to want to play nice
 });
 
 var app = builder.Build();
