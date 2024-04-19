@@ -57,6 +57,7 @@ else
                 Location = trail.Location,
                 Length = trail.Length,
                 TimeInMinutes = trail.TimeInMinutes,
+                Owner = trail.Owner
             });
 
             _searchResults = allTrails.Where(trail => trail.Name.Contains(SearchTerm, StringComparison.CurrentCultureIgnoreCase) ||
