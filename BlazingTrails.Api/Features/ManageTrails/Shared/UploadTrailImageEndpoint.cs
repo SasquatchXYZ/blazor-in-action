@@ -28,7 +28,7 @@ public class UploadTrailImageEndpoint : EndpointBaseAsync.WithRequest<int>.WithA
         if (trail is null)
             return BadRequest("Trail does not exist.");
 
-        if (!trail.Owner.Equals(HttpContext.User.Identity!.Name, StringComparison.OrdinalIgnoreCase))
+        if (!trail.Owner.Equals(HttpContext.User.Identity!.Name, StringComparison.OrdinalIgnoreCase) && !HttpContext.User.IsInRole("Administrator"))
             return Unauthorized();
 
         var file = Request.Form.Files[0];
