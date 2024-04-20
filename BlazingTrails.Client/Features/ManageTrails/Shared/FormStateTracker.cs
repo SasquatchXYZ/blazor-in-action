@@ -28,7 +28,7 @@ public class FormStateTracker : ComponentBase
         // Only new trails will have an ID of 0
         if (trail.Id == 0)
         {
-            AppState.SaveTrail(trail);
+            AppState.NewTrailState.SaveTrail(trail);
         }
     }
 }
