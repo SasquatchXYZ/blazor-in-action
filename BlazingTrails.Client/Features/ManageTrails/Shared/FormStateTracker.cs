@@ -7,7 +7,7 @@ namespace BlazingTrails.Client.Features.ManageTrails.Shared;
 
 public class FormStateTracker : ComponentBase
 {
-    [Inject] public AppState AppState { get; set; }
+    [Inject] public AppState? AppState { get; set; }
 
     [CascadingParameter] private EditContext? CascadedEditContext { get; set; }
 
@@ -19,6 +19,12 @@ public class FormStateTracker : ComponentBase
                 $"{nameof(FormStateTracker)} requires a cascading parameter of type {nameof(EditContext)}");
         }
 
+        if (AppState is null)
+        {
+            throw new InvalidOperationException(
+                $"{nameof(FormStateTracker)} requires a cascading parameter of type {nameof(State.AppState)}");
+        }
+
         CascadedEditContext.OnFieldChanged += CascadedEditContext_OnFieldChanged;
     }
 
@@ -28,7 +34,7 @@ public class FormStateTracker : ComponentBase
         // Only new trails will have an ID of 0
         if (trail.Id == 0)
         {
-            AppState.NewTrailState.SaveTrail(trail);
+            AppState!.NewTrailState.SaveTrail(trail);
         }
     }
 }
