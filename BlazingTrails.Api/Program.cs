@@ -5,6 +5,7 @@ using FluentValidation.AspNetCore;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.FileProviders;
+using Microsoft.IdentityModel.Tokens;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -22,7 +23,11 @@ builder.Services.AddAuthentication(options =>
 }).AddJwtBearer(options =>
 {
     options.Authority = builder.Configuration["Auth0:Authority"];
-    options.Audience = builder.Configuration["Auth0:ApiIdentifier"];
+    options.TokenValidationParameters = new TokenValidationParameters
+    {
+        ValidAudience = builder.Configuration["Auth0:ApiIdentifier"],
+        ValidIssuer = builder.Configuration["Auth0:Authority"]
+    };
     options.RequireHttpsMetadata = false; // putting this here temporarily for running on Linux because things don't seem to want to play nice
 });
 
