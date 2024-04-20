@@ -5,7 +5,7 @@ using Microsoft.AspNetCore.Components.WebAssembly.Authentication.Internal;
 
 namespace BlazingTrails.Client.Features.Auth;
 
-public class CustomUserFactory<TAccount> : AccountClaimsPrincipalFactory<RemoteUserAccount>
+public class CustomUserFactory : AccountClaimsPrincipalFactory<RemoteUserAccount>
 {
     public CustomUserFactory(IAccessTokenProviderAccessor accessor) : base(accessor)
     {
@@ -22,8 +22,7 @@ public class CustomUserFactory<TAccount> : AccountClaimsPrincipalFactory<RemoteU
 
             account.AdditionalProperties.TryGetValue(ClaimTypes.Role, out var roleClaimValue);
 
-            if (roleClaimValue is not null &&
-                roleClaimValue is JsonElement element &&
+            if (roleClaimValue is JsonElement element &&
                 element.ValueKind == JsonValueKind.Array)
             {
                 userIdentity.RemoveClaim(userIdentity.FindFirst(ClaimTypes.Role));
