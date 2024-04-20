@@ -41,6 +41,7 @@ else
                     <button @onclick="@(() => NavigationManager.NavigateTo($"/editTrail/{trail.Id}"))" title="Edit" class="btn btn-outline-secondary">
                         <i class="bi bi-pencil"></i>
                     </button>
+                    <FavoriteButton Trail="trail"/>
                     <button @onclick="@(() => HandleTrailSelected(trail))" title="View" class="btn btn-primary">
                         <i class="bi bi-binoculars"></i>
                     </button>
