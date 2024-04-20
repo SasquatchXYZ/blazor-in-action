@@ -46,7 +46,7 @@ else
                 <td>@trail.Location</td>
                 <td>@(trail.Length) km</td>
                 <td>@trail.TimeFormatted</td>
-                <td class="text-right">
+                <td class="text-end">
                     <AuthorizeView>
                         @if (trail.Owner.Equals(context.User.Identity?.Name, StringComparison.OrdinalIgnoreCase))
                         {

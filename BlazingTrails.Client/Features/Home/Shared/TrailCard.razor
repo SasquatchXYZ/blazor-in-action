@@ -24,7 +24,7 @@
         <AuthorizeView>
             @if (Trail.Owner.Equals(context.User.Identity?.Name, StringComparison.OrdinalIgnoreCase))
             {
-                <button class="btn btn-secondary float-right" title="Edit" @onclick="@(() => NavigationManager.NavigateTo($"/editTrail/{Trail.Id}"))">
+                <button class="btn btn-secondary float-end" title="Edit" @onclick="@(() => NavigationManager.NavigateTo($"/editTrail/{Trail.Id}"))">
                     <i class="bi bi-pencil"></i>
                 </button>
             }
