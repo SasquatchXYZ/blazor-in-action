@@ -1,0 +1,25 @@
+@inject IJSRuntime JsRuntime
+@inject NavigationManager NavigationManager
+
+<div class="text-end">
+    <AuthorizeView>
+        <Authorized>
+            <div>
+                Hello, @context.User.Identity!.Name <a href="#" @onclick="BeginSignOut">Log Out</a>
+            </div>
+        </Authorized>
+        <NotAuthorized>
+            <a href="authentication/login">Log In/Sign Up</a>
+        </NotAuthorized>
+    </AuthorizeView>
+</div>
+
+@code {
+
+    private async Task BeginSignOut(MouseEventArgs args)
+    {
+        await JsRuntime.InvokeVoidAsync("sessionStorage.clear");
+        NavigationManager.NavigateToLogout("authentication/logout");
+    }
+
+}

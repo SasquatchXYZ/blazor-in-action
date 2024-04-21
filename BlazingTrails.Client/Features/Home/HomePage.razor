@@ -18,9 +18,18 @@ else
 
     @if (_trails.Any())
     {
-        <div class="mb-4">
-            <p class="font-italic text-center">Do you have an awesome trail you'd like to share? <a href="addTrail">Add it here</a>.</p>
-        </div>
+        <AuthorizeView>
+            <Authorized>
+                <div class="mb-4">
+                    <p class="font-italic text-center">Do you have an awesome trail you'd like to share? <a href="addTrail">Add it here</a>.</p>
+                </div>
+            </Authorized>
+            <NotAuthorized>
+                <div class="mb-4">
+                    <p class="font-italic text-center">Do you have an awesome trail you'd like to share? Please <a href="authentication/login">log in or sign up</a>.</p>
+                </div>
+            </NotAuthorized>
+        </AuthorizeView>
 
         <ViewSwitcher Items="_trails" Context="trail">
             <GridTemplate>
@@ -39,9 +48,14 @@ else
                 <td>@(trail.Length) km</td>
                 <td>@trail.TimeFormatted</td>
                 <td class="text-end">
-                    <button @onclick="@(() => NavigationManager.NavigateTo($"/editTrail/{trail.Id}"))" title="Edit" class="btn btn-outline-secondary">
-                        <i class="bi bi-pencil"></i>
-                    </button>
+                    <AuthorizeView>
+                        @if (trail.Owner.Equals(context.User.Identity?.Name, StringComparison.OrdinalIgnoreCase) || context.User.IsInRole("Administrator"))
+                        {
+                            <button @onclick="@(() => NavigationManager.NavigateTo($"/editTrail/{trail.Id}"))" title="Edit" class="btn btn-outline-secondary">
+                                <i class="bi bi-pencil"></i>
+                            </button>
+                        }
+                    </AuthorizeView>
                     <FavoriteButton Trail="trail"/>
                     <button @onclick="@(() => HandleTrailSelected(trail))" title="View" class="btn btn-primary">
                         <i class="bi bi-binoculars"></i>
@@ -77,6 +91,7 @@ else
                 Location = trail.Location,
                 Length = trail.Length,
                 TimeInMinutes = trail.TimeInMinutes,
+                Owner = trail.Owner,
                 Waypoints = trail.Waypoints.Select(waypoint => new LatLong(waypoint.Latitude, waypoint.Longitude)).ToList()
             });
         }

@@ -24,9 +24,14 @@
 
         <FavoriteButton Trail="Trail"/>
 
-        <button class="btn btn-secondary float-end" title="Edit" @onclick="@(() => NavigationManager.NavigateTo($"/editTrail/{Trail.Id}"))">
-            <i class="bi bi-pencil"></i>
-        </button>
+        <AuthorizeView>
+            @if (Trail.Owner.Equals(context.User.Identity?.Name, StringComparison.OrdinalIgnoreCase) || context.User.IsInRole("Administrator"))
+            {
+                <button class="btn btn-secondary float-end" title="Edit" @onclick="@(() => NavigationManager.NavigateTo($"/editTrail/{Trail.Id}"))">
+                    <i class="bi bi-pencil"></i>
+                </button>
+            }
+        </AuthorizeView>
     </div>
 </div>
 

@@ -2,6 +2,7 @@ using Ardalis.ApiEndpoints;
 using BlazingTrails.Api.Persistence;
 using BlazingTrails.Api.Persistence.Entities;
 using BlazingTrails.Shared.Features.ManageTrails.AddTrail;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace BlazingTrails.Api.Features.ManageTrails.AddTrail;
@@ -15,6 +16,7 @@ public class AddTrailEndpoint : EndpointBaseAsync.WithRequest<AddTrailRequest>.W
         _database = database;
     }
 
+    [Authorize]
     [HttpPost(AddTrailRequest.RouteTemplate)]
     public override async Task<ActionResult<int>> HandleAsync(AddTrailRequest request,
         CancellationToken cancellationToken = default)
@@ -26,6 +28,7 @@ public class AddTrailEndpoint : EndpointBaseAsync.WithRequest<AddTrailRequest>.W
             Location = request.Trail.Location,
             TimeInMinutes = request.Trail.TimeInMinutes,
             Length = request.Trail.Length,
+            Owner = HttpContext.User.Identity!.Name!,
             Waypoints = request.Trail.Waypoints.Select(waypoint => new Waypoint
             {
                 Latitude = waypoint.Latitude,
