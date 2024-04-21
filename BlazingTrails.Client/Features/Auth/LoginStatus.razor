@@ -1,3 +1,4 @@
+@inject IJSRuntime JsRuntime
 @inject NavigationManager NavigationManager
 
 <div class="text-end">
@@ -15,8 +16,9 @@
 
 @code {
 
-    private void BeginSignOut(MouseEventArgs args)
+    private async Task BeginSignOut(MouseEventArgs args)
     {
+        await JsRuntime.InvokeVoidAsync("sessionStorage.clear");
         NavigationManager.NavigateToLogout("authentication/logout");
     }
 
